@@ -99,11 +99,19 @@ CommonJS is a way of defining modules with th">
 </blockquote>
 <p><strong>RequireJS</strong> implements the <strong>AMD</strong> API <a href="http://www.requirejs.org/docs/whyamd.html" target="_blank" rel="external">(source)</a>.</p>
 <p><strong>CommonJS</strong> is a way of defining modules with the help of an <code>exports</code> object, that defines the module contents. Simply put a CommonJS implementation might work like this</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// someModule.js&#10;exports.doSomething = function() &#123; return &#34;foo&#34;; &#125;;&#10;&#10;//otherModule.js&#10;var someModule = require(&#39;someModule&#39;); // in the vein of node&#10;exports.doSomethingElse = function() &#123; return someModule.doSomething() + &#34;bar&#34;; &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// someModule.js
+exports.doSomething = function() { return &quot;foo&quot;; };
+
+//otherModule.js
+var someModule = require(&apos;someModule&apos;); // in the vein of node
+exports.doSomethingElse = function() { return someModule.doSomething() + &quot;bar&quot;; };</span><br></pre></td></tr></table></figure>
 <p>Basically CommonJS specifies that you need to have a the <code>require()</code> function to fetch dependencies, the <code>exports</code> variable to export module contents and some module identifier (that describes the location of the module in question in relation to this module) that is used to require the dependencies(<a href="http://wiki.commonjs.org/wiki/Modules/1.1.1" target="_blank" rel="external">source</a>). CommonJS has various implementions, for example <strong>Node.js</strong>.</p>
-<p>CommonJS was not particularly designed with browsers in mind so, it doesn’t fit to the browser environment very well (<em>I rereally have no source for this, it just says so everywhere, for example <a href="http://requirejs.org/docs/commonjs.html" target="_blank" rel="external">the RequireJS site.</a></em>). Apparently this has something to do with asynchronous loading etc.</p>
+<p>CommonJS was not particularly designed with browsers in mind so, it doesn&#x2019;t fit to the browser environment very well (<em>I rereally have no source for this, it just says so everywhere, for example <a href="http://requirejs.org/docs/commonjs.html" target="_blank" rel="external">the RequireJS site.</a></em>). Apparently this has something to do with asynchronous loading etc.</p>
 <p>On the contrary, RequireJS implements AMD, which is designed to suit the browser environment(<a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="external">source</a>). Apparently AMD started as an offspin of CommonJS Transport format and evolved into its own module definition API. Hence the similiarites between the two. The new thing in AMD is the <code>define()</code>-function that allows the module to declare its dependencies before being loaded. For example the definition cound be:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define(&#39;module/id/string&#39;, [&#39;module&#39;, &#39;dependency&#39;, &#39;array&#39;],&#10;function(module, factory function) &#123;&#10;&#9;return ModuleContents;&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define(&apos;module/id/string&apos;, [&apos;module&apos;, &apos;dependency&apos;, &apos;array&apos;],
+function(module, factory function) {
+	return ModuleContents;
+});</span><br></pre></td></tr></table></figure>
 <p>So CommonJS and AMD are JavaScript module definition APIs that have different implementations, but both come from the same origins.</p>
 <ul>
 <li><p><strong>AMD</strong> is more suited for the browser, because it supports asynchronous loading of module dependencies.</p>
@@ -112,16 +120,20 @@ CommonJS is a way of defining modules with th">
 </li>
 </ul>
 <p>To confuse you even more, RequireJS, while being an AMD implementation, offers a CommonJS wrapper so CommonJS modules can almost directly be imported into use with RequireJS.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define(function(require, exports, module) &#123;&#10;&#9;var someModule = require(&#39;someModule&#39;); // in the vein of node&#10;&#9;exports.doSomethingElse = function() &#123; return someModule.doSomething() + &#34;bar&#34;; &#125;;&#10;&#9;&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define(function(require, exports, module) {
+	var someModule = require(&apos;someModule&apos;); // in the vein of node
+	exports.doSomethingElse = function() { return someModule.doSomething() + &quot;bar&quot;; };
+	
+});</span><br></pre></td></tr></table></figure>
 <p>Hope this helped to clarify things!</p>
 <hr>
-<p>Node.js 实现了CommonJS，但不适用于浏览器端；AMD借鉴了CommonJS，RequireJS实现了AMD，适用于浏览器。</p>
-<p>另外一点，RequireJS还提供了一种CommonJS wrapper，所以CommonJS也可以很方便地被RequireJS引入。</p>
+<p>Node.js &#x5B9E;&#x73B0;&#x4E86;CommonJS&#xFF0C;&#x4F46;&#x4E0D;&#x9002;&#x7528;&#x4E8E;&#x6D4F;&#x89C8;&#x5668;&#x7AEF;&#xFF1B;AMD&#x501F;&#x9274;&#x4E86;CommonJS&#xFF0C;RequireJS&#x5B9E;&#x73B0;&#x4E86;AMD&#xFF0C;&#x9002;&#x7528;&#x4E8E;&#x6D4F;&#x89C8;&#x5668;&#x3002;</p>
+<p>&#x53E6;&#x5916;&#x4E00;&#x70B9;&#xFF0C;RequireJS&#x8FD8;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x79CD;CommonJS wrapper&#xFF0C;&#x6240;&#x4EE5;CommonJS&#x4E5F;&#x53EF;&#x4EE5;&#x5F88;&#x65B9;&#x4FBF;&#x5730;&#x88AB;RequireJS&#x5F15;&#x5165;&#x3002;</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://telen.github.io/2016/03/07/difference-between-commandjs-and-amd/" data-id="cinbuwozw0004413fr5p0ikzj" class="article-share-link">Share</a>
+      <a data-url="http://telen.github.io/2016/03/07/difference-between-commandjs-and-amd/" data-id="cineqh1k900045g3f0qfbmmco" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
@@ -131,6 +143,15 @@ CommonJS is a way of defining modules with th">
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/04/24/css-display/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          css-display
+        
+      </div>
+    </a>
   
   
     <a href="/2016/02/25/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -154,7 +175,7 @@ CommonJS is a way of defining modules with th">
   <div class="widget-wrap">
     <h3 class="widget-title">標籤</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
     </div>
   </div>
 
@@ -164,7 +185,7 @@ CommonJS is a way of defining modules with th">
   <div class="widget-wrap">
     <h3 class="widget-title">標籤雲</h3>
     <div class="widget tagcloud">
-      <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
+      <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a>
     </div>
   </div>
 
@@ -173,7 +194,7 @@ CommonJS is a way of defining modules with th">
   <div class="widget-wrap">
     <h3 class="widget-title">彙整</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li></ul>
     </div>
   </div>
 
@@ -184,6 +205,10 @@ CommonJS is a way of defining modules with th">
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/04/24/css-display/">css-display</a>
+          </li>
         
           <li>
             <a href="/2016/03/07/difference-between-commandjs-and-amd/">Difference between CommonJS and AMD</a>
