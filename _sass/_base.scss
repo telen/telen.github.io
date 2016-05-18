@@ -1,0 +1,110 @@
+/**
+ * Reset some basic elements
+ */
+body, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, hr,
+dl, dd, ol, ul, figure {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/**
+ * Basic styling
+ */
+body {
+    font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
+    color: $text-color;
+    background-color: $color-secondary-2-0;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-feature-settings: "kern" 1;
+    -moz-font-feature-settings: "kern" 1;
+    -o-font-feature-settings: "kern" 1;
+    font-feature-settings: "kern" 1;
+    font-kerning: normal;
+}
+
+
+
+/**
+ * Set `margin-bottom` to maintain vertical rhythm
+ */
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+ul, ol, dl, figure,
+%vertical-rhythm {
+    margin-bottom: $spacing-unit / 2;
+}
+
+
+
+/**
+ * Images
+ */
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+
+.wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    .home {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        top: 50%;
+        margin-top: -150px;
+        opacity: 0;
+        -webkit-animation: fade-out 1s ease-out 1s;
+        -webkit-animation-fill-mode: forwards;
+        animation: fade-out 1s ease-out 1s;
+        animation-fill-mode: forwards;
+    }
+
+}
+
+nav {
+    position: absolute;
+    margin-left: 10px;
+
+    ul li {
+        display: inline-block;
+        margin-right: 10px;
+
+        a {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: $color-secondary-2-1;
+            text-decoration: none;
+            -webkit-transition: all .3s ease-out;
+            transition: color .3s ease-out;
+        }
+
+        a:hover {
+            color: $text-color;
+            text-shadow: 0px 1px 2px black;
+        }
+
+        a:active {
+            text-shadow: none;
+        }
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 0;
+        transform: translate(0, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
