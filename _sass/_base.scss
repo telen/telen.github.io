@@ -8,7 +8,10 @@ dl, dd, ol, ul, figure {
     padding: 0;
 }
 
-
+html, body {
+    width: 100%;
+    height: 100%;
+}
 
 /**
  * Basic styling
@@ -16,7 +19,7 @@ dl, dd, ol, ul, figure {
 body {
     font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
     color: $text-color;
-    background-color: $color-secondary-2-0;
+    background: linear-gradient(to bottom, $color-primary-3, $color-primary-0 70%, $color-primary-1);
     -webkit-text-size-adjust: 100%;
     -webkit-font-feature-settings: "kern" 1;
     -moz-font-feature-settings: "kern" 1;
@@ -47,29 +50,6 @@ img {
     vertical-align: middle;
 }
 
-
-.wrapper {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-
-    .home {
-        position: relative;
-        width: 300px;
-        height: 300px;
-        margin-left: auto;
-        margin-right: auto;
-        top: 50%;
-        margin-top: -150px;
-        opacity: 0;
-        -webkit-animation: fade-out 1s ease-out 1s;
-        -webkit-animation-fill-mode: forwards;
-        animation: fade-out 1s ease-out 1s;
-        animation-fill-mode: forwards;
-    }
-
-}
-
 nav {
     position: absolute;
     margin-left: 10px;
@@ -98,6 +78,54 @@ nav {
     }
 }
 
+.wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    .home {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        top: 50%;
+        margin-top: -150px;
+        opacity: 0;
+        -webkit-animation: fade-out 1s ease-out 1s;
+        -webkit-animation-fill-mode: forwards;
+        animation: fade-out 1s ease-out 1s;
+        animation-fill-mode: forwards;
+    }
+
+    .cover {
+        position: absolute;
+        height: 300px;
+        width: 100%;
+        top: 50%;
+        margin-top: -150px;
+        perspective: 1000px;
+        -webkit-user-select: none; // 停止手势
+        -webkit-touch-callout: none;
+
+        .flip {
+            box-sizing: border-box;
+            width: (100%/24);
+            height: 100%;
+            float: left;
+
+        }
+
+        .flip.hover {
+            transform-style: preserve-3d;
+            animation-name: flipover;
+            animation-duration: .4s;
+            animation-fill-mode: forwards;
+        }
+    }
+}
+
+
 @keyframes fade-out {
     from {
         opacity: 0;
@@ -106,5 +134,20 @@ nav {
     to {
         opacity: 1;
         transform: translate(0, 0);
+    }
+}
+
+@keyframes flipover {
+    0% {
+        background-color: $color-primary-0;
+        transform: rotateY(0deg);
+    }
+    50% {
+        background-color: $color-primary-0;
+        transform: rotateY(90deg);
+    }
+    100% {
+        background-color: $color-primary-2;
+        transform: rotateY(180deg);
     }
 }

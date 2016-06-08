@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
 var child = require('child_process');
 var browserSync = require('browser-sync').create();
@@ -7,25 +8,30 @@ var browserSync = require('browser-sync').create();
 gulp.task('sass', () => {
   return gulp.src('_sass/main.scss')
            .pipe(sass())
-		   .pipe(gulp.dest('_site/css'));
+           .pipe(gulp.dest('_site/css'));
+});
+
+gulp.task('uglify', () => {
+  return gulp.src('index.js')
+          .pipe(uglify())
+          .pipe(gulp.dest('_site'));
 });
 
 gulp.task('jekyll', () => {
-    var jekyll = child.spawn('jekyll', ['build',
+  var jekyll = child.spawn('jekyll', ['build',
         '--watch',
         '--incremental',
         '--drafts'
         ]);
 
-	var jekyllLogger = (buffer) => {
+  var jekyllLogger = (buffer) => {
         buffer.toString()
         .split('/\n/')
         .forEach((message) => gutil.log('Jekyll: ' + message));
-    
-};
+  };
 
-    jekyll.stdout.on('data', jekyllLogger);
-    jekyll.stderr.on('data', jekyllLogger);
+  jekyll.stdout.on('data', jekyllLogger);
+  jekyll.stderr.on('data', jekyllLogger);
 
 });
 
@@ -33,14 +39,15 @@ gulp.task('serve', () => {
   browserSync.init({
     files: ['_site/**'],
     port: 4000,
-	server: {
+  server: {
       baseDir: '_site'
     }
   });
 
   gulp.watch('_sass/*.scss', ['sass']);
+  gulp.watch('index.js', ['uglify']);
   gulp.watch(['*.html', '_layout/*', '_includes/*', '_posts/*'], ['jekyll'])
 });
 
-gulp.task('default', ['sass', 'jekyll', 'serve']);
+gulp.task('default', ['sass', 'uglify', 'jekyll', 'serve']);
 
